@@ -11,4 +11,17 @@
 
     public Schema additionalProperties { get; set; }
     //public Schema allOf { get; set; }
+
+    public override string ToString()
+    {
+        if (type == "object")
+        {
+            if (properties != null)
+                return title + "\n" + String.Join("\n", properties.OrderBy(p => p.Key).Select(p => "\t" + p.Key));
+            if (items != null)
+                return title + "\n" + items;
+        }
+
+        return base.ToString();
+    }
 }

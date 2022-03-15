@@ -12,4 +12,14 @@
     public List<string> schemes { get; set; }
     public string deprecated { get; set; }
     public Dictionary<string, List<string>> security { get; set; }
+
+    public override string ToString()
+    {
+        return
+            "PARAMETERS:\n" +
+            String.Join('\n', parameters.OrderBy(p => p.name).Select(p => p.ToString())) + "\n" +
+            "RESPONSES:\n" +
+            String.Join('\n', responses.OrderBy(r => r.Key).Select(r => r.Key + "\n" + r.Value));
+    }
+
 }

@@ -14,4 +14,10 @@
 
     public string allowEmptyValue { get; set; }
     public string collectionFormat { get; set; }
+
+    public override string ToString()
+    {
+        return
+            (refers != null ? "ref: " + refers : (name??title + ": " + type));
+    }
 }

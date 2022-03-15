@@ -5,4 +5,10 @@
     public Schema schema { get; set; }
     public Dictionary<string, Header> headers { get; set; }
     public dynamic examples { get; set; }
+
+    public override string ToString()
+    {
+        return
+            (refers != null ? "ref: " + refers : (schema?.ToString() ?? ""));
+    }
 }

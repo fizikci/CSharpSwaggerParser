@@ -21,4 +21,10 @@ public class JSONSchema
     public string minProperties { get; set; }
     public List<string> _enum { get; set; } // if type==string
     public string type { get; set; }
+
+    public override string ToString()
+    {
+        return
+            (refers != null ? "ref: " + refers : (title + ": " + type));
+    }
 }

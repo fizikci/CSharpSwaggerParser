@@ -1,4 +1,5 @@
-﻿using YamlDotNet.Serialization;
+﻿using System.Net;
+using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 
 public class Swagger
@@ -19,8 +20,16 @@ public class Swagger
     public List<Tag> tags { get; set; }
     public List<string> externalDocs { get; set; }
 
-    public static Swagger Parse(string swagger)
+    public static Swagger Parse(string swaggerLocation)
     {
+        string swagger = "";
+
+        if (swaggerLocation.StartsWith("http"))
+            using (var wc = new WebClient())
+                swagger = wc.DownloadString(swaggerLocation);
+        else
+            swagger = File.ReadAllText(swaggerLocation);
+
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(new UnderscoredNamingConvention())
             .Build();
@@ -66,5 +75,18 @@ public class Swagger
             }
 
         return obj;
+    }
+
+    public override string ToString()
+    {
+        return 
+            "PATHS:\n" + 
+            String.Join('\n', paths.OrderBy(p => p.Key).Select(p => p.Key + "\n" + p.Value)) + "\n" +
+            "DEFINITIONS:\n" +
+            String.Join('\n', definitions.OrderBy(d => d.Key).Select(d => d.Key + "\n" + d.Value)) + "\n" +
+            "PARAMETERS:\n" +
+            String.Join('\n', parameters.OrderBy(p => p.Key).Select(p => p.Key + "\n" + p.Value)) + "\n" +
+            "RESPONSES:\n" +
+            String.Join('\n', responses.OrderBy(r => r.Key).Select(r => r.Key + "\n" + r.Value));
     }
 }
