@@ -24,7 +24,7 @@ public class Swagger
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(new UnderscoredNamingConvention())
             .Build();
-        
+
         var x = deserializer.Deserialize<dynamic>(swagger);
 
         return setProps(typeof(Swagger), x) as Swagger;
@@ -33,12 +33,6 @@ public class Swagger
     static dynamic setProps(Type type, dynamic props)
     {
         if (type == typeof(string))
-            return props;
-
-        if (type == typeof(bool))
-            return props;
-
-        if (type == typeof(int))
             return props;
 
         if (type.FullName == "System.Object")
